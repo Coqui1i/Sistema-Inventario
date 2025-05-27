@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="#{product.list.title}">Productos</title>
+
+    <!-- BOOTSTRAP CSS -->
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+    <!-- BOOTSTRAP ICONS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- CUSTOM CSS -->
+    <link rel="stylesheet" th:href="@{/bootstrap/custom.css}">
+
+    <style>
+        .product-card {
+            transition: all 0.3s ease;
+            border-radius: 10px;
+            overflow: hidden;
+            border: none;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .stock-low {
+            background-color: #fff3cd !important;
+        }
+        .stock-out {
+            background-color: #f8d7da !important;
+        }
+        .status-badge {
+            font-size: 0.75rem;
+            padding: 0.35em 0.65em;
+        }
+        .action-buttons .btn {
+            opacity: 0.8;
+            transition: all 0.2s;
+        }
+        .action-buttons .btn:hover {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+        .btn-outline-dark.custom-outline {
+            background-color: white;
+            color: #212529;
+            border-color: #212529;
+        }
+        .btn-outline-dark.custom-outline:hover {
+            background-color: white !important;
+            color: #212529;
+            border-color: #212529;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+<!-- NAVBAR -->
+<div th:replace="~{layouts/navbar :: content}"></div>
+
+<div class="container py-4">
+    <div class="hover-card card shadow-sm mb-4">
+        <div class="card-header text-white" style="background-color: #9e66b1;">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 class="mb-0"><i class="bi bi-box-seam me-2"></i><span th:text="#{product.list.header}">Productos</span></h3>
+                
+                <div class="d-flex">
+                    <div class="input-group me-3" style="width: 250px;">
+                        <span class="input-group-text"><i class="bi bi-search"></i></span>
+                        <input type="text" class="form-control" th:placeholder="#{search.placeholder}" 
+                               th:id="searchInput" th:onkeyup="filterTable()">
+                    </div>
+                    <a th:href="@{/products/new}" class="btn btn-purple me-2">
+                        <i class="bi bi-plus-lg me-1"></i><span th:text="#{button.add}">Nuevo Producto</span>
+                    </a>
+                    <a th:href="@{/products/report}" class="btn btn-purple">
+                        <i class="bi bi-file-earmark-pdf me-1"></i><span th:text="#{button.report}">Reporte</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th th:text="#{product.id}">ID</th>
+                            <th th:text="#{product.name}">Nombre</th>
+                            <th th:text="#{product.price}">Precio</th>
+                            <th th:text="#{product.stock}">Stock</th>
+                            <th th:text="#{product.category}">Categoría</th>
+                            <th th:text="#{product.supplier}">Proveedor</th>
+                            <th th:text="#{product.status}">Estado</th>
+                            <th class="text-end" th:text="#{actions}">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="product : ${products}" th:classappend="${product.unitsInStock == 0} ? 'stock-out' : (${product.unitsInStock < 10} ? 'stock-low' : '')">
+                            <td th:text="${product.idProduct}" class="fw-bold"></td>
+                            <td th:text="${product.productName}"></td>
+                            <td><span class="me-1">$</span><span th:text="${#numbers.formatDecimal(product.unitPrice, 1, 'POINT', 2, 'COMMA')}"></span></td>
+                            <td>
+                                <div class="progress" style="height: 6px;">
+                                    <div class="progress-bar" 
+                                         th:classappend="${product.unitsInStock == 0} ? 'bg-danger' : (${product.unitsInStock < 10} ? 'bg-warning' : 'bg-success')"
+                                         th:style="'width: ' + ${product.unitsInStock < 100 ? product.unitsInStock : 100} + '%'">
+                                    </div>
+                                </div>
+                                <small th:text="${product.unitsInStock} + ' ' + #{product.units}"></small>
+                            </td>
+                            <td>
+                                <span class="badge" style="background-color: #9e66b1; color: white;" 
+                                      th:text="${product.category.categoryName}">
+                                </span>
+                            </td>
+                            <td th:text="${product.supplier.supplierName}"></td>
+                            <td>
+                                <span class="badge" 
+                                      th:classappend="${product.unitsInStock} == 0 ? 'bg-danger' : (${product.unitsInStock} < 10 ? 'bg-warning' : 'bg-success')">
+                                    <i class="bi" 
+                                       th:classappend="${product.unitsInStock} == 0 ? 'bi-x-circle' : (${product.unitsInStock} < 10 ? 'bi-exclamation-triangle' : 'bi-check-circle')"></i>
+                                    <span th:text="${product.unitsInStock} == 0 ? #{product.status.out_of_stock} : (${product.unitsInStock} < 10 ? #{product.status.low_stock} : #{product.status.in_stock})"></span>
+                                </span>
+                            </td>
+                            <td class="text-end action-buttons">
+                                <a th:href="@{/products/edit/{id}(id=${product.idProduct})}" 
+                                   class="btn btn-sm btn-outline-primary me-1"
+                                   data-bs-toggle="tooltip" th:title="#{button.edit}">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a href="#" 
+                                   class="btn btn-sm btn-outline-success me-1"
+                                   th:onclick="'return handleStockAction(\'add\', event, ' + ${product.idProduct} + ')'"
+                                   data-bs-toggle="tooltip" th:title="#{button.add_stock}">
+                                    <i class="bi bi-plus-circle"></i>
+                                </a>
+                                <a href="#" 
+                                   class="btn btn-sm btn-outline-warning me-1"
+                                   th:onclick="'return handleStockAction(\'remove\', event, ' + ${product.idProduct} + ')'"
+                                   data-bs-toggle="tooltip" th:title="#{button.remove_stock}">
+                                    <i class="bi bi-dash-circle"></i>
+                                </a>
+                                <a th:href="@{/products/delete/{id}(id=${product.idProduct})}" 
+                                   class="btn btn-sm btn-outline-danger"
+                                   th:onclick="'return confirm(\'' + #{confirm.delete.product} + '\')'"
+                                   data-bs-toggle="tooltip" th:title="#{button.delete}">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="card-footer bg-light">
+            <small class="text-muted">
+                <span th:text="#{showing.items}">Mostrando</span> <span th:text="${products.size()}"></span> <span th:text="#{product.plural}">productos</span>
+            </small>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script>
+    // Activar tooltips
+    document.addEventListener('DOMContentLoaded', function() {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
+    
+    // Función de búsqueda original
+    function filterTable() {
+        const input = document.getElementById('searchInput');
+        const filter = input.value.toUpperCase();
+        const table = document.querySelector('table');
+        const rows = table.getElementsByTagName('tr');
+
+        for (let i = 1; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName('td');
+            let match = false;
+            
+            for (let j = 0; j < cells.length - 1; j++) {
+                if (cells[j]) {
+                    const text = cells[j].textContent || cells[j].innerText;
+                    if (text.toUpperCase().indexOf(filter) > -1) {
+                        match = true;
+                        break;
+                    }
+                }
+            }
+            
+            rows[i].style.display = match ? '' : 'none';
+        }
+    }
+    
+    function handleStockAction(action, event, productId) {
+        event.preventDefault();
+        const cantidad = prompt(`Ingrese la cantidad a ${action === 'add' ? 'agregar' : 'quitar'}:`);
+        
+        if (cantidad && !isNaN(cantidad) && parseInt(cantidad) > 0) {
+            window.location.href = `/products/${action}-stock/${productId}?cantidad=${cantidad}`;
+        } else if (cantidad !== null) {
+            alert('Por favor ingrese un número válido mayor a 0');
+        }
+        return false;
+    }
+</script>
+
+</body>
+</html>

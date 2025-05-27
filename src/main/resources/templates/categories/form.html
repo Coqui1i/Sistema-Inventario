@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{category.form.title}">Formulario de Categoría</title>
+
+    <!-- BOOTSTRAP CSS -->
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+
+    <!-- CUSTOM BUTTONS CSS -->
+    <link rel="stylesheet" th:href="@{/bootstrap/custom.css}">
+
+</head>
+<body class="bg-light">
+
+<!-- NAVBAR -->
+<div th:replace="~{layouts/navbar :: content}"></div>
+
+<div class="container py-4">
+    <div class="card shadow-sm">
+
+    <div th:fragment="content">
+        <div class="card">
+            <div class="card-header">
+                <h3 th:text="${category.id == null} ? #{category.form.new} : #{category.form.edit}"></h3>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/categories/save}" th:object="${category}" method="post">
+                    <input type="hidden" th:field="*{id}">
+                    
+                    <div class="mb-3">
+                        <label for="categoryName" class="form-label" th:text="#{category.name}">Nombre</label>
+                        <input type="text" class="form-control" id="categoryName" 
+                               th:field="*{categoryName}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="categoryDescription" class="form-label" th:text="#{category.description}">Descripción</label>
+                        <textarea class="form-control" id="categoryDescription" 
+                                th:field="*{categoryDescription}" rows="3"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-purple" th:text="#{button.save}">Guardar</button>
+                    <a th:href="@{/categories}" class="btn btn-secondary" th:text="#{button.cancel}">Cancelar</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+
+<!-- BOOTSTRAP JS -->
+<script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</html>

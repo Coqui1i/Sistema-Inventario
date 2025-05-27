@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es" th:lang="${#locale.language}">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="#{supplier.form.title}">Formulario de Proveedor</title>
+
+  <!-- BOOTSTRAP CSS -->
+  <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+
+  <!-- CUSTOM BUTTONS CSS -->
+  <link rel="stylesheet" th:href="@{/bootstrap/custom.css}">
+
+</head>
+<body class="bg-light">
+
+<!-- NAVBAR -->
+<div th:replace="~{layouts/navbar :: content}"></div>
+
+<div class="container py-4">
+    <div class="card shadow-sm">
+
+<div th:fragment="content">
+  <div class="card">
+    <div class="card-header">
+      <h3 th:text="${supplier.id == null} ? #{supplier.form.new} : #{supplier.form.edit}"></h3>
+    </div>
+    <div class="card-body">
+      <form th:action="@{/suppliers/save}" th:object="${supplier}" method="post">
+        <input type="hidden" th:field="*{id}">
+
+        <div class="mb-3">
+          <label for="supplierName" class="form-label" th:text="#{supplier.name}"></label>
+          <input type="text" class="form-control" id="supplierName"
+                 th:field="*{supplierName}" required>
+        </div>
+
+         <div class="mb-3">
+          <label for="supplierEmail" class="form-label" th:text="#{supplier.email}"></label>
+          <input type="email" class="form-control" id="supplierEmail"
+                 th:field="*{supplierEmail}" required>
+         </div>
+
+         <div class="mb-3">
+           <label for="supplierPhone" class="form-label" th:text="#{supplier.phone}"></label>
+           <input type="tel" class="form-control" id="supplierPhone"
+                 th:field="*{supplierPhone}" required>
+         </div>
+
+         <button type="submit" class="btn btn-purple" th:text="#{button.save}"></button>
+         <a th:href="@{/categories}" class="btn btn-secondary" th:text="#{button.cancel}"></a>
+       </form>
+     </div>
+   </div>
+ </div>
+</div>
+</div>
+</body>
+
+<!-- BOOTSTRAP JS -->
+<script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</html>

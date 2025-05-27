@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="#{category.list.title}">Gestión de Categorías</title>
+
+    <!-- BOOTSTRAP CSS -->
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+    <!-- BOOTSTRAP ICONS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- CUSTOM CSS -->
+    <link rel="stylesheet" th:href="@{/bootstrap/custom.css}">
+
+    <style>
+        .category-badge {
+            font-size: 0.8rem;
+            padding: 0.5em 0.8em;
+            border-radius: 50px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+<!-- NAVBAR -->
+<div th:replace="~{layouts/navbar :: content}"></div>
+
+<div class="container py-4">
+    <div class="hover-card card shadow-sm mb-4">
+        <div class="card-header text-white">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 class="mb-0"><i class="bi bi-tags me-2"></i><span th:text="#{category.list.header}">Categorías</span></h3>
+                
+                <div class="d-flex">
+                    <div class="input-group me-3" style="width: 250px;">
+                        <span class="input-group-text"><i class="bi bi-search"></i></span>
+                        <input type="text" class="form-control" th:placeholder="#{search.placeholder}" 
+                               th:id="searchInput" th:onkeyup="filterTable()">
+                    </div>
+                    <a th:href="@{/categories/new}" class="btn btn-purple me-2">
+                        <i class="bi bi-plus-lg me-1"></i><span th:text="#{button.new}">Nueva Categoría</span>
+                    </a>
+                    <a th:href="@{/categories/report}" class="btn btn-purple">
+                        <i class="bi bi-file-earmark-pdf me-1"></i><span th:text="#{button.report}">Reporte</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th th:text="#{category.id}">ID</th>
+                            <th th:text="#{category.name}">Nombre</th>
+                            <th th:text="#{category.description}">Descripción</th>
+                            <th th:text="#{category.status}">Estado</th>
+                            <th class="text-end" th:text="#{actions}">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="category : ${categories}">
+                            <td th:text="${category.id}" class="fw-bold"></td>
+                            <td>
+                                <span class="badge category-badge" 
+                                      style="background-color: #9e66b1; color: white;"
+                                      th:text="${category.categoryName}">
+                                </span>
+                            </td>
+                            <td>
+                                <small class="text-muted" th:text="${category.categoryDescription}"></small>
+                            </td>
+                            <td>
+                                <span class="badge" th:classappend="${category.products.size() == 0} ? 'bg-secondary' : 'bg-success'">
+                                    <i class="bi" th:classappend="${category.products.size() == 0} ? 'bi-x-circle' : 'bi-check-circle'"></i>
+                                    <span th:text="${category.products.size() == 0} ? #{category.status.empty} : #{category.status.with_products}"></span>
+                                </span>
+                            </td>
+                            <td class="text-end">
+                                <a th:href="@{/categories/edit/{id}(id=${category.id})}" 
+                                   class="btn btn-sm btn-outline-primary me-1"
+                                   data-bs-toggle="tooltip" th:title="#{button.edit.category}">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a th:href="@{/categories/delete/{id}(id=${category.id})}" 
+                                   class="btn btn-sm btn-outline-danger"
+                                   th:onclick="'return confirm(\'' + #{confirm.delete.category} + '\')'"
+                                   data-bs-toggle="tooltip" th:title="#{button.delete.category}">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="card-footer bg-light">
+            <small class="text-muted">
+                <span th:text="#{showing.items}">Mostrando</span> <span th:text="${categories.size()}"></span> <span th:text="#{category.plural}">categorías</span>
+            </small>
+        </div>
+    </div>
+</div>
+
+<!-- BOOTSTRAP JS -->
+<script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+<script>
+
+    // Activar tooltips
+    document.addEventListener('DOMContentLoaded', function() {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
+    
+    // Función de búsqueda
+    function filterTable() {
+        const input = document.getElementById('searchInput');
+        const filter = input.value.toUpperCase();
+        const table = document.querySelector('table');
+        const rows = table.getElementsByTagName('tr');
+
+        for (let i = 1; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName('td');
+            let match = false;
+            
+            for (let j = 0; j < cells.length - 1; j++) {
+                if (cells[j]) {
+                    const text = cells[j].textContent || cells[j].innerText;
+                    if (text.toUpperCase().indexOf(filter) > -1) {
+                        match = true;
+                        break;
+                    }
+                }
+            }
+            
+            rows[i].style.display = match ? '' : 'none';
+        }
+    }
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,112 @@
+/* Estilos base con color #9e66b1 */
+:root {
+  --primary-color: #9e66b1;
+  --primary-hover: #8a5a9d;
+  --secondary-color: #653f70;
+  --success-color: #28a745;
+  --info-color: #17a2b8;
+  --warning-color: #ffc107;
+  --danger-color: #dc3545;
+  --light-color: #f8f9fa;
+  --dark-color: #343a40;
+    --bg-primary: #9e66b1;
+}
+
+/* Estilos generales */
+.card-header {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
+}
+
+.bg-primary {
+  background-color: var(--primary-color) !important;
+}
+
+.text-primary {
+  color: var(--primary-color) !important;
+}
+
+/* Efectos hover para tarjetas */
+.hover-card {
+  transition: all 0.3s ease;
+  border-radius: 10px;
+  overflow: hidden;
+  border: none;
+}
+
+.hover-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* Badges personalizados */
+.badge-primary {
+  background-color: var(--primary-color);
+}
+
+/* Estilos para los botones */
+.btn-purple {
+    background-color: #9e66b1;
+    color: #ffffff;
+    border-color: #c7b8ea;
+}
+
+.btn-purple:hover {
+    background-color: #8a5a9d;
+    border-color: #a87eb5;
+}
+
+/* Estilos para la tabla */
+.table-purple {
+    --bs-table-bg: #f5f0ff;
+    --bs-table-striped-bg: #e9e0fa;
+    --bs-table-hover-bg: #d9cdf2;
+    border-color: #9e66b1;
+}
+
+.bg-purple-header {
+    background-color: #9e66b1 !important;
+    color: white !important;
+}
+
+/* Estilos para el dropdown */
+.dropdown-menu {
+    background-color: #f5f0ff;
+    border-color: #9e66b1;
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+    background-color: #d9cdf2;
+    color: #653f70;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+    background-color: #9e66b1;
+    color: white;
+}
+
+.nav-link.dropdown-toggle:hover {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.navbar.bg-purple {
+    background-color: var(--primary-color) !important;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: white !important;
+}

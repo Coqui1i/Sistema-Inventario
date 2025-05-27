@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="#{product.form.title}">Formulario de Producto</title>
+
+    <!-- BOOTSTRAP CSS -->
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+
+    <!-- CUSTOM BUTTONS CSS -->
+    <link rel="stylesheet" th:href="@{/bootstrap/custom.css}">
+
+</head>
+<body class="bg-light">
+
+<!-- NAVBAR -->
+<div th:replace="~{layouts/navbar :: content}"></div>
+
+<div class="container py-4">
+    <div class="card shadow-sm">
+        <div class="card-header text-white">
+            <h3 th:text="${product.idProduct == null} ? #{product.form.new} : #{product.form.edit}"></h3>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/products/save}" th:object="${product}" method="post">
+                <input type="hidden" th:field="*{idProduct}">
+
+                <div class="mb-3">
+                    <label for="productName" class="form-label" th:text="#{product.name}">Nombre</label>
+                    <input type="text" class="form-control" id="productName" th:field="*{productName}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="precio" class="form-label" th:text="#{product.price}">Precio</label>
+                    <input type="number" class="form-control" id="precio" th:field="*{unitPrice}" step="0.01" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="stock" class="form-label" th:text="#{product.stock}">Stock</label>
+                    <input type="number" class="form-control" id="stock" th:field="*{unitsInStock}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="categoria" class="form-label" th:text="#{product.category}">Categoría</label>
+                    <select class="form-select" id="categoria" th:field="*{category.id}">
+                        <option value="">Seleccione una categoría</option>
+                        <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.categoryName}"></option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="supplier" class="form-label" th:text="#{product.supplier}">Proveedor</label>
+                    <select class="form-select" id="supplier" th:field="*{supplier.id}">
+                        <option value="">Seleccione un Proveedor</option>
+                        <option th:each="sup : ${suppliers}" th:value="${sup.id}" th:text="${sup.supplierName}"></option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-purple" th:text="#{button.save}">Guardar</button>
+                <a th:href="@{/products}" class="btn btn-secondary" th:text="#{button.cancel}">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- BOOTSTRAP JS -->
+<script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+</html>

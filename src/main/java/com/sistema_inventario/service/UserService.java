@@ -1,0 +1,95 @@
+package com.sistema_inventario.service;
+
+import com.sistema_inventario.entity.RoleEntity;
+import com.sistema_inventario.entity.UserEntity;
+import com.sistema_inventario.repository.RoleRepository;
+import com.sistema_inventario.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+@Service
+public class UserService {
+
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+    public UserEntity saveUser(UserEntity user) {
+        if (user == null) {
+            throw new IllegalArgumentException("El usuario no puede ser nulo");
+        }
+        user.setPassword(passwordEncoder.encode(user.getPassword())); // Codificar la contraseña
+        RoleEntity userRole = roleRepository.findByName("ROLE_USER")
+                .orElseThrow(() -> new RuntimeException("Rol ROLE_USER no encontrado"));
+        Set<RoleEntity> roles = new HashSet<>();
+        roles.add(userRole);
+        user.setRoles(roles);
+        user.setEnabled(true);
+        return userRepository.save(user);
+    }
+
+    public UserEntity findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found: " + username));
+    }
+
+    public UserEntity findById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
+    }
+
+    public void deleteUser(Long id) {
+        UserEntity user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
+        userRepository.delete(user);
+    }
+
+    public boolean existsByUsername(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
+    public String encodePassword(String rawPassword) {
+        return passwordEncoder.encode(rawPassword);
+    }
+
+    public void registerUser(UserEntity user) {
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        
+
+        if(user.getRoles() == null || user.getRoles().isEmpty()) {
+            RoleEntity userRole = roleRepository.findByName("ROLE_USER")
+                .orElseThrow(() -> new RuntimeException("Rol USER no encontrado"));
+            user.addRole(userRole);
+        }
+        
+        userRepository.save(user);
+    }
+
+    public UserEntity getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new RuntimeException("Usuario no autenticado");
+        }
+        return findByUsername(authentication.getName());
+    }
+
+    public List<UserEntity> getAllUsers() {
+        return userRepository.findAll();
+    }
+}

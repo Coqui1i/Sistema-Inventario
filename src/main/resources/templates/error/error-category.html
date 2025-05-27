@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
+<head>
+  <title th:text="#{error.title}">Error</title>
+
+  <!-- BOOTSTRAP CSS -->
+  <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+
+  <!-- CUSTOM BUTTONS CSS -->
+  <link rel="stylesheet" th:href="@{/bootstrap/custom.css}">
+
+  <style>
+    body {
+      background-color: #9e66b1;
+    }
+    .error-container {
+      max-width: 600px;
+      margin: 100px auto;
+      padding: 2rem;
+      border-radius: 0.5rem;
+      background-color: #ffffff;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+    .error-icon {
+      font-size: 3rem;
+      color: #dc3545;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+
+<!-- NAVBAR -->
+<div th:replace="~{layouts/navbar :: content}"></div>
+
+<body class="bg-light">
+  <div class="error-container text-center">
+    <div class="error-icon">
+      <i class="bi bi-exclamation-triangle-fill"></i>
+    </div>
+    <h1 class="text-danger mb-4" th:text="#{error.title}">Error</h1>
+    <p class="lead" th:text="#{error.category.delete.message}">No se puede eliminar la categoría porque tiene productos asociados.</p>
+    <a th:href="@{/categories}" class="btn btn-purple">
+      <span th:text="#{error.back}">Volver a la lista de categorías</span>
+    </a>
+  </div>
+
+  <!-- BOOTSTRAP JS -->
+  <script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+</html>

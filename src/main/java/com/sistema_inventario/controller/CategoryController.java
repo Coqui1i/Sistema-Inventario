@@ -1,0 +1,81 @@
+package com.sistema_inventario.controller;
+
+import com.sistema_inventario.entity.CategoryEntity;
+import com.sistema_inventario.service.CategoryService;
+import com.sistema_inventario.service.ProductService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
+
+@Controller
+@RequestMapping("/categories")
+@RequiredArgsConstructor
+public class CategoryController {
+
+    private final CategoryService categoryService;
+    private final ProductService productService;
+
+    @GetMapping
+    public String listCategories(Model model) {
+        List<CategoryEntity> categories = categoryService.findAll();
+
+        categories.forEach(category -> 
+            category.setProducts(productService.findByCategory(category))
+        );
+        model.addAttribute("categories", categories);
+        return "categories/list";
+    }
+
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("category", new CategoryEntity());
+        return "categories/form";
+    }
+
+    @PostMapping("/save")
+    public String saveCategory(@ModelAttribute CategoryEntity category) {
+        categoryService.save(category);
+        return "redirect:/categories";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable Long id, Model model) {
+        model.addAttribute("category", categoryService.findById(id));
+        return "categories/form";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteCategory(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        if (productService.existsByCategoryId(id)) {
+            redirectAttributes.addFlashAttribute("errorMessage", "No se puede eliminar la categoría porque tiene productos asociados.");
+            return "redirect:/error-category";
+        }
+        categoryService.deleteById(id);
+        return "redirect:/categories";
+    }
+
+    @PostMapping("/categories/delete")
+    public String deleteCategory(@RequestParam Long id) {
+        if (productService.existsByCategoryId(id)) {
+            return "redirect:/error-category";
+        }
+        categoryService.deleteById(id);
+        return "redirect:/categories";
+    }
+
+    @PostMapping("/categories/update")
+    public String updateCategory(@RequestParam Long id, 
+                               @RequestParam String categoryName,
+                               @RequestParam String categoryDescription) {
+        CategoryEntity category = categoryService.findById(id);
+        category.setCategoryName(categoryName);
+        category.setCategoryDescription(categoryDescription);
+        categoryService.save(category);
+        return "redirect:/categories";
+    }
+
+}

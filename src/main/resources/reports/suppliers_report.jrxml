@@ -1,0 +1,183 @@
+<!-- Created with Jaspersoft Studio version 7.0.2.final using JasperReports Library version 7.0.2-31532122640f516c6d17238ae0e41a08113d5ac0  -->
+<jasperReport name="SuppliersList" language="java" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sistema-inventario"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50.0" bold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18.0" bold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14.0" bold="true"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle mode="Opaque" backcolor="#EEEFF0">
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+		</conditionalStyle>
+	</style>
+	<style name="Table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+			<topPen lineWidth="1.0" lineColor="#000000"/>
+			<leftPen lineWidth="1.0" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineColor="#000000"/>
+			<rightPen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#CACED0">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle backcolor="#D8D8D8">
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+		</conditionalStyle>
+	</style>
+	<dataset name="tableDataset" uuid="f13e6d36-5148-4ecc-bbe3-3035def80980">
+		<query language="sql"><![CDATA[]]></query>
+	</dataset>
+	<query language="SQL"><![CDATA[select * from suppliers]]></query>
+	<field name="id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="id"/>
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="suppliers"/>
+	</field>
+	<field name="supplierName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="supplierName"/>
+		<property name="com.jaspersoft.studio.field.label" value="Proveedor"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="suppliers"/>
+	</field>
+	<field name="supplierEmail" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="supplierEmail"/>
+		<property name="com.jaspersoft.studio.field.label" value="Correo Electrónico"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="suppliers"/>
+	</field>
+	<field name="supplierPhone" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="supplierPhone"/>
+		<property name="com.jaspersoft.studio.field.label" value="Teléfono"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="suppliers"/>
+	</field>
+	<title height="196" splitType="Stretch">
+		<element kind="staticText" uuid="6fc84669-da02-4fce-b8b7-a7fb01e99e8e" x="415" y="10" width="50" height="20" hTextAlign="Right">
+			<text><![CDATA[Fecha:]]></text>
+			<box rightPadding="4"/>
+		</element>
+		<element kind="textField" uuid="a752cabd-8970-4c8d-8ab3-fbce8b10f4a1" x="465" y="10" width="84" height="20" pattern="dd/MM/yyyy">
+			<expression><![CDATA[new java.util.Date()]]></expression>
+		</element>
+		<element kind="staticText" uuid="30ebf569-084c-42e7-b79a-a094b98138a4" x="95" y="0" width="210" height="25" fontSize="19.0" bold="true">
+			<text><![CDATA[Sistema Inventario]]></text>
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+		<element kind="staticText" uuid="41d6d8a2-56c1-4842-b9de-a5392abca59b" x="95" y="55" width="305" height="15">
+			<text><![CDATA[Número: +57 321 2760086   E- mail: u20232215871@usco.edu.co]]></text>
+		</element>
+		<element kind="staticText" uuid="b2ecc5be-9d93-4542-85c8-9fff98c4f955" x="95" y="25" width="205" height="15">
+			<text><![CDATA[Neiva - Huila]]></text>
+		</element>
+		<element kind="staticText" uuid="2ee182a1-88e1-4211-93a2-4a46a7dd5f88" x="95" y="40" width="205" height="15">
+			<text><![CDATA[Esteban Santiago Caquimbo Dussan]]></text>
+		</element>
+		<element kind="image" uuid="a8a2b5d2-ba4b-459b-af9a-b004610ae6c8" x="0" y="0" width="70" height="73">
+			<expression><![CDATA["https://upload.wikimedia.org/wikipedia/commons/e/e8/USCO_Logo.png"]]></expression>
+		</element>
+		<element kind="staticText" uuid="b8730bed-1851-49ae-b4c1-769b463229ec" x="108" y="110" width="340" height="76" fontSize="30.0" hTextAlign="Center">
+			<text><![CDATA[Lista de Proveedores]]></text>
+			<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+		</element>
+		<element kind="line" uuid="d984fcab-6ccc-4789-b3ba-f1005a24e48d" x="0" y="80" width="556" height="1">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+	</title>
+	<columnHeader height="20">
+		<element kind="staticText" uuid="5b550845-7209-47a7-a068-77b50e80c521" positionType="Float" x="0" y="0" width="70" height="20" forecolor="#000000" fontName="Arial" fontSize="12.0" bold="true" hTextAlign="Center" style="Column header">
+			<text><![CDATA[ID]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b4e0d964-fb39-4c4f-a0dc-75035b35b6ad"/>
+			<box style="Column header">
+				<pen lineWidth="1.75" lineColor="#030000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="e494d9f5-feda-4593-a648-97d96501fb8f" positionType="Float" x="70" y="0" width="120" height="20" forecolor="#000000" fontName="Arial" fontSize="12.0" bold="true" hTextAlign="Center" style="Column header">
+			<text><![CDATA[Proveedor]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cffcade4-2278-4045-934f-cc82e6f29f07"/>
+			<box style="Column header">
+				<pen lineWidth="1.75" lineColor="#030000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="1b506810-3c1a-410d-a340-4f6f7bf57a71" positionType="Float" x="190" y="0" width="224" height="20" forecolor="#000000" fontName="Arial" fontSize="12.0" bold="true" hTextAlign="Center" style="Column header">
+			<text><![CDATA[Correo Electrónico]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="83c79bae-10c9-4efe-acb5-689ab5756542"/>
+			<box style="Column header">
+				<pen lineWidth="1.75" lineColor="#030000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="1c7ade1d-14fe-4c7f-9746-ade50489d666" positionType="Float" x="414" y="0" width="138" height="20" forecolor="#000000" fontName="Arial" fontSize="12.0" bold="true" hTextAlign="Center" style="Column header">
+			<text><![CDATA[Teléfono]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e2bde933-93ff-4f75-b211-41683fcae14a"/>
+			<box style="Column header">
+				<pen lineWidth="1.75" lineColor="#030000"/>
+			</box>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<element kind="textField" uuid="1a563deb-29e9-4da9-8ad6-9bb1847d2c43" positionType="Float" x="0" y="0" width="70" height="20" fontName="Arial" fontSize="12.0" textAdjust="StretchHeight" blankWhenNull="true" bold="false" hTextAlign="Center" style="Detail">
+				<expression><![CDATA[$F{id}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b4e0d964-fb39-4c4f-a0dc-75035b35b6ad"/>
+				<box style="Detail">
+					<pen lineWidth="1.75" lineColor="#030000"/>
+				</box>
+			</element>
+			<element kind="textField" uuid="577569ff-d139-4aa7-8d0c-c350168f2df3" positionType="Float" x="70" y="0" width="120" height="20" fontName="Arial" fontSize="12.0" textAdjust="StretchHeight" blankWhenNull="true" bold="false" hTextAlign="Center" style="Detail">
+				<expression><![CDATA[$F{supplierName}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cffcade4-2278-4045-934f-cc82e6f29f07"/>
+				<box style="Detail">
+					<pen lineWidth="1.75" lineColor="#030000"/>
+				</box>
+			</element>
+			<element kind="textField" uuid="a81c7895-c8cc-484d-8ba5-91d3ecc47dde" positionType="Float" x="190" y="0" width="224" height="20" fontName="Arial" fontSize="12.0" textAdjust="StretchHeight" blankWhenNull="true" bold="false" hTextAlign="Center" style="Detail">
+				<expression><![CDATA[$F{supplierEmail}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="83c79bae-10c9-4efe-acb5-689ab5756542"/>
+				<box style="Detail">
+					<pen lineWidth="1.75" lineColor="#030000"/>
+				</box>
+			</element>
+			<element kind="textField" uuid="acfc4d25-3b41-4eea-bd8a-99f56ab08799" positionType="Float" x="414" y="0" width="138" height="20" fontName="Arial" fontSize="12.0" textAdjust="StretchHeight" blankWhenNull="true" bold="false" hTextAlign="Center" style="Detail">
+				<expression><![CDATA[$F{supplierPhone}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e2bde933-93ff-4f75-b211-41683fcae14a"/>
+				<box style="Detail">
+					<pen lineWidth="1.75" lineColor="#030000"/>
+				</box>
+			</element>
+		</band>
+	</detail>
+	<lastPageFooter height="177">
+		<element kind="staticText" uuid="36aa233d-4305-48e6-974a-1bbf89bb3c8f" positionType="Float" mode="Opaque" x="0" y="147" width="556" height="30" backcolor="#E6E8E9" fontName="Serif" fontSize="9.0" italic="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[© 2025 Universidad Surcolombia]]></text>
+		</element>
+		<element kind="line" uuid="a8df0c8b-c185-4dac-a408-0e26a7aac4e1" x="0" y="120" width="556" height="1">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+	</lastPageFooter>
+</jasperReport>

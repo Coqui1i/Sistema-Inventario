@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio - Sistema de Inventario</title>
+
+  <!-- BOOTSTRAP CSS -->
+  <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+  <!-- BOOTSTRAP ICONS -->
+  <link th:href="@{/bootstrap/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+
+  <style>
+    :root {
+      --purple-primary: #9e66b1;
+      --purple-light: #f5f0ff;
+      --purple-shadow: rgba(158, 102, 177, 0.3);
+    }
+
+    body {
+      background: linear-gradient(135deg, #f9f3ff 0%, #e6d4f5 100%);
+      min-height: 100vh;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+    }
+
+    .main-card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 15px 30px var(--purple-shadow);
+      border: none;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .main-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px var(--purple-shadow);
+    }
+
+    .btn-purple {
+      background-color: var(--purple-primary);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 50px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px var(--purple-shadow);
+      opacity: 0;
+      animation: fadeInUp 0.5s ease-out forwards;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .btn-purple:hover {
+      background-color: #8a4d9e;
+      transform: translateY(-3px);
+      box-shadow: 0 7px 20px var(--purple-shadow);
+    }
+
+    .btn-outline-purple {
+      color: var(--purple-primary);
+      border-color: var(--purple-primary);
+      transition: all 0.3s ease;
+    }
+
+    .btn-outline-purple:hover {
+      background-color: var(--purple-primary);
+      color: white;
+    }
+
+    .title-text {
+      color: var(--purple-primary);
+      font-weight: 700;
+      position: relative;
+      display: inline-block;
+    }
+
+    .title-text::after {
+      content: '';
+      position: absolute;
+      width: 50%;
+      height: 4px;
+      background: var(--purple-primary);
+      bottom: -10px;
+      left: 25%;
+      border-radius: 2px;
+      animation: scaleIn 0.5s ease-out;
+    }
+
+    @keyframes scaleIn {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+
+    .welcome-icon {
+      font-size: 2rem;
+      color: var(--purple-primary);
+      margin-bottom: 1rem;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-15px); }
+      60% { transform: translateY(-7px); }
+    }
+
+    /* Animaciones secuenciales para los botones */
+    .btn-delay-1 { animation-delay: 0.1s !important; }
+    .btn-delay-2 { animation-delay: 0.2s !important; }
+    .btn-delay-3 { animation-delay: 0.3s !important; }
+    .btn-delay-4 { animation-delay: 0.4s !important; }
+    .btn-delay-5 { animation-delay: 0.5s !important; }
+    .btn-delay-6 { animation-delay: 0.6s !important; }
+  </style>
+
+</head>
+
+<body>
+<div class="container py-5">
+    <div class="text-end mb-4">
+        <div th:replace="~{layouts/language-selector :: lang-selector}"></div>
+    </div>
+    <div class="main-card">
+      <div class="p-5">
+        <div class="text-center">
+          <i class="bi bi-box-seam welcome-icon"></i>
+          <h1 class="title-text mb-4" th:text="#{home.title}">Bienvenido al Sistema</h1>
+          <p class="text-muted mb-4" th:text="#{home.subtitle}">Administra tu inventario de manera eficiente</p>
+        </div>
+        <div class="row g-3 justify-content-center">
+          <div class="col-md-4 col-6">
+            <a href="/products" class="btn btn-purple btn-delay-1 w-100 d-flex flex-column align-items-center py-3" th:text="#{home.products}">
+              <i class="bi bi-box-seam mb-2" style="font-size: 1.5rem;"></i>
+            </a>
+          </div>
+          <div class="col-md-4 col-6">
+            <a href="/categories" class="btn btn-purple btn-delay-2 w-100 d-flex flex-column align-items-center py-3" th:text="#{home.categories}">
+              <i class="bi bi-tags mb-2" style="font-size: 1.5rem;"></i>
+            </a>
+          </div>
+          <div class="col-md-4 col-6">
+            <a href="/suppliers" class="btn btn-purple btn-delay-3 w-100 d-flex flex-column align-items-center py-3" th:text="#{home.suppliers}">
+              <i class="bi bi-truck mb-2" style="font-size: 1.5rem;"></i>
+            </a>
+          </div>
+          <div class="col-md-4 col-6">
+            <a href="/admin/users" class="btn btn-purple btn-delay-4 w-100 d-flex flex-column align-items-center py-3" th:text="#{home.users}">
+              <i class="bi bi-people mb-2" style="font-size: 1.5rem;"></i>
+            </a>
+          </div>
+          <div class="col-md-4 col-6">
+            <a href="/profile" class="btn btn-purple btn-delay-5 w-100 d-flex flex-column align-items-center py-3" th:text="#{home.profile}">
+              <i class="bi bi-person-gear mb-2" style="font-size: 1.5rem;"></i>
+            </a>
+          </div>
+          <div class="col-md-4 col-6">
+            <form th:action="@{/logout}" method="post" class="h-100">
+              <button type="submit" class="btn btn-outline-purple btn-delay-6 w-100 h-100 d-flex flex-column align-items-center py-3" th:text="#{home.logout}">
+                <i class="bi bi-box-arrow-right mb-2" style="font-size: 1.5rem;"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- BOOTSTRAP JS -->
+<script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+  });
+</script>
+</body>
+</html>
